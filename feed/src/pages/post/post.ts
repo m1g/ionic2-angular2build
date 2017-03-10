@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Data } from '../../providers/data';
+import { AngularFire } from 'angularfire2';
 
 /*
   Generated class for the Post page.
@@ -23,10 +23,10 @@ class Post {
 })
 export class PostPage {
   post: Post = new Post()
-  constructor(public navCtrl: NavController, public _data: Data) {}
+  constructor(public navCtrl: NavController, public af: AngularFire) {}
   
   submit() {
-    this._data.addPost(this.post) // adds new post to data provider
+    this.af.database.list('/posts').push(this.post) // adds new post to data provider
     this.post = new Post() // clears out older post data
     this.navCtrl.parent.select(0) // returns us to the feed page
   }
